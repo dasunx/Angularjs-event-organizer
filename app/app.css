@@ -1,0 +1,87 @@
+/* app css stylesheet */
+@import url('https://fonts.googleapis.com/css?family=Handlee&display=swap');
+
+
+html{
+  background-color: #2d2d2d !important;
+  color: white !important;
+}
+body{
+  background-color: #2d2d2d !important;
+  color: white !important;
+}
+.main-box{
+  background-color: #3d3d3d;
+}
+.dark-box{
+  background-color: #2d2d2d !important;
+  color: white !important;
+}
+.date-alert{
+  background-color: #3f51b5;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 20px;
+}
+
+.top-title{
+  background-color: #5a9e6f;
+  color: white;
+  margin-bottom: 5px;
+}
+.md-calendar-day-header{
+  background-color: #3f51b5;
+  color: white;
+}
+
+.validate-error{
+  font-size: 14px;
+  color: #f48024;
+  padding-left: 11px;
+}
+.lang{
+  padding-right: 75px;
+  vertical-align: sub;
+  padding-top: 5px;
+}
+
+.empty-img{
+  width: 50%;
+}
+.empty-search-img{
+  width: 80%;
+}
+@media only screen and (max-width: 600px) {
+  .empty-img{
+    width: 100%;
+  }
+  .empty-search-img{
+    width: 50%;
+  }
+  .sticky-top{
+    position: relative !important;
+  }
+  .footer{
+    display: none;
+  }
+}
+.empty-msg{
+  font-family: 'Handlee', cursive;
+}
+.see-more{
+  float: right;
+  padding: 2px 30px;
+  background-color: #3f51b5;
+  border-radius: 30px;
+}
+
+.footer{
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background-color: #121212;
+  color:white;
+
+}
