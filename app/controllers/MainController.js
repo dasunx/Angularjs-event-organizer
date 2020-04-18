@@ -150,12 +150,12 @@ app.controller('AppCtrl',['$scope', '$location', '$anchorScroll','$filter',funct
     };
 
     this.delete = function(id){
-        let objIndex = this.evList.findIndex((obj=>obj.id == this.editID));
+        let objIndex = this.evList.findIndex((obj=>obj.id == id));
         this.evList.splice(objIndex,1);
         saved = this.evList;
         let d = JSON.stringify(saved);
         localStorage.setItem('sav',d);
-        alert( "Has been deleted successfully.");
+        alert( "Event Has been deleted successfully.");
     };
 
     this.todayPostCount = function(){
@@ -169,12 +169,14 @@ app.controller('AppCtrl',['$scope', '$location', '$anchorScroll','$filter',funct
             $scope.IsTodayPosts = false;
             return false;
         }
-    }
+    };
     $scope.seeMore = function () {
         $scope.cards = $scope.cards + 2;
     };
 
-
+    $scope.isActive = function (viewLocation) {
+        return viewLocation === $location.path();
+    };
 
 }]);
 

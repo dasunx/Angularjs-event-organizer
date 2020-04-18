@@ -39,10 +39,14 @@ body{
   color: #f48024;
   padding-left: 11px;
 }
-.lang{
-  padding-right: 75px;
-  vertical-align: sub;
-  padding-top: 5px;
+.xnav-main{
+  background-color: #393939;
+  border-bottom: 3px solid #f48024;
+}
+
+#navbarNav{
+  justify-content: flex-end;
+  margin-right: 100px;
 }
 
 .empty-img{
@@ -64,6 +68,12 @@ body{
   .footer{
     display: none;
   }
+  .bottom-menu{
+    display: block !important;
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+  }
 }
 .empty-msg{
   font-family: 'Handlee', cursive;
@@ -83,5 +93,30 @@ body{
   line-height: 60px;
   background-color: #121212;
   color:white;
+}
+.bottom-menu-icon{
+  color: white;
+}
+.bottom-menu-title{
+  display: block;
+  font-size: 13px;
+  color: #ffffff;
+}
+.title-column{
+  border-top: 3px solid black;
+}
+.active-title-column{
+  border-top: 3px solid #5a9e6f;
+}
+.active-title, .active-menu-icon{
+  color:#5a9e6f ;
+}
 
+.bottom-menu{
+  background-color: black;
+  display: none;
+}
+
+.last-box{
+  margin-bottom:75px !important;
 }

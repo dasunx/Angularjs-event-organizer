@@ -22,440 +22,32 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-translate/2.18.1/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
 </head>
 <body ng-app="ToDoList" ng-controller="AppCtrl as ctrl">
-
-<div class="container-fluid pl-3 pr-3 pt-2 pb-1 mb-2 sticky-top" style="background-color: #393939; border-bottom: 3px solid #f48024">
-    <div class="row">
-        <div class="col">
-            <img src="https://docs.angularjs.org/img/angularjs-for-header-only.svg" alt="" width="150px">
-        </div>
-        <div class="col">
-            <span class="float-right lang">Language</span>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2 sticky-top xnav-main">
+    <a class="navbar-brand" href="/">
+        <img src="https://docs.angularjs.org/img/angularjs-for-header-only.svg" alt="" width="150px">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item {{isActive('/')?'active':''}}">
+                <a class="nav-link" href="/">Home </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Features</a>
+            </li>
+            <li class="nav-item {{isActive('/completed')?'active':''}}">
+                <a class="nav-link" href="#!completed">Completed</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+        </ul>
     </div>
-</div>
-<div class="container" style="background-color: #2d2d2d">
-    <!--Calendar and Current events-->
-    <div class="row main-box m-0 pt-3 pb-3 mb-3" style="width: 100%" id="home">
-        <div class="col-md-7 mb-2">
-            <div class="row mb-2">
-                <div class="col-md-12">
-                    <div class="card" style="width: 100%; border: 0">
-                        <div class="card-body dark-box">
-                            <h4 class="card-title">Title</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">
+</nav>
 
-                                Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <md-button class="md-raised md-warn" ng-click="ctrl.goto('view-events')">View Events</md-button>
-                            <md-button class="md-raised md-primary" ng-click="ctrl.ShowHide(true)">Add New event</md-button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div flex-order="0" flex-order-gt-sm="2" layout="column">
-                        <md-subheader class="top-title">Next Event : <span class="date-alert ml-2">{{ctrl.startDate | date:shortDate}}</span>
-                        </md-subheader>
-                    </div>
-                    <div class="events">
-                        <div ng-repeat="x in ctrl.evList |filter:{complete:false}|orderBy: ['eventsDate','eventStime'] | limitTo:1">
-                           <span >
-                               <div class="card mb-2" style="width: 100%; border: 0">
-                                <div class="card-body dark-box">
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <h4 class="card-title">Event : <span ng-bind="x.eventName" class="ng-binding"></span></h4>
-                                        </div>
-                                        <div class="col-4" style="text-align: end;">
-                                           <md-button class="md-icon-button md-primary" aria-label="More"  ng-click="ctrl.edit(x.id)">
-                                       <md-icon md-svg-icon="images/edit.svg"></md-icon>
-                                   </md-button>
-                                   <md-button class="md-icon-button md-warn" aria-label="More" ng-confirm-click="" confirmed-click='ctrl.delete(x.id)'>
-                                       <md-icon md-svg-icon="images/bin.svg"></md-icon>
-                                   </md-button>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h6 class="card-subtitle mb-2 text-muted">Description:  <span ng-bind="x.eventDes" class="ng-binding">sad</span></h6>
-                                        </div>
-                                    </div>
-
-                                    <div class="row" style="width: 100%;">
-                                        <div class="col-md-3">
-                                            Start Date: <span> {{x.eventsDate|date:shortDate}}</span>
-                                        </div>
-                                        <div class="col-md-3">
-                                            End Date: <span> {{x.eventeDate|date:shortDate}}</span>
-                                        </div>
-                                        <div class="col-md-3">
-                                            Start Time: <span> {{x.eventStime | date:"hh:mm a"}}</span>
-                                        </div>
-                                        <div class="col-md-3">
-                                            End Time: <span> {{x.eventEtime | date:"hh:mm a"}}</span>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                           </span>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-5 mb-2">
-            <div flex-order="1" flex-order-gt-sm="0" layout="column">
-                <md-subheader class="top-title">Select Date</md-subheader>
-                <md-calendar ng-model="ctrl.startDate" style="align-self: center" ng-change="ctrl.changeDate()"></md-calendar>
-            </div>
-        </div>
-    </div>
-
-    <!--daily events-->
-    <div class="row main-box m-0 pt-3 pb-3 mb-3" style="width: 100%" id="view-daily-events">
-        <div class="row top-title mr-1 ml-1"  style="width: 100%">
-            <div class="col">
-                <div flex-order="0" flex-order-gt-sm="2" layout="column">
-                    <md-subheader class="top-title">Daily Events of<span class="date-alert ml-2">{{ctrl.startDate | date:shortDate}}</span></md-subheader>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-12 text-center empty-msg" ng-hide="IsTodayPosts">
-            <div class="row">
-                <div class="col-md-4">
-                    <img src="/images/search.svg" class="empty-search-img" alt="">
-                </div>
-                <div class="col-md-8">
-                    <h3 class="mt-md-5 pt-md-5">HMM... Looks like no events here, Anything Missing? <md-button class="md-raised md-primary"  ng-click="ctrl.ShowHide(true)"/>
-                        Add new Event
-                        </md-button></h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6 mb-2" ng-repeat="x in ctrl.evList |filter: {eventsDate:dated} |orderBy: ['eventsDate','eventStime'] |limitTo:cards track by $index">
-                    <div class="card mb-2" style="width: 100%; border: 0">
-                        <div class="card-body dark-box">
-                            <div class="row">
-                                <div class="col-8">
-                                    <h4 class="card-title">Event : <span ng-bind="x.eventName" class="ng-binding"></span></h4>
-                                </div>
-                                <div class="col-4">
-                                    <div class="row float-right">
-
-
-                                        <md-button class="md-icon-button md-primary" aria-label="More"  ng-click="ctrl.edit(x.id)">
-                                            <md-icon md-svg-icon="images/edit.svg"></md-icon>
-                                        </md-button>
-                                        <md-button class="md-icon-button md-warn" aria-label="More"  ng-confirm-click="" confirmed-click='ctrl.delete(x.id)'>
-                                            <md-icon md-svg-icon="images/bin.svg"></md-icon>
-                                        </md-button>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h6 class="card-subtitle mb-2 text-muted"><span ng-bind="x.eventDes" class="ng-binding"></span></h6>
-                                </div>
-                            </div>
-
-                            <div class="row" style="width: 100%;">
-                                <div class="col-md-3">
-                                    Start Date: <span> {{x.eventsDate|date:shortDate}}</span>
-                                </div>
-                                <div class="col-md-3">
-                                    End Date: <span> {{x.eventeDate|date:shortDate}}</span>
-                                </div>
-                                <div class="col-md-3">
-                                    Start Time: <span> {{x.eventStime| date:"hh:mm a"}}</span>
-                                </div>
-                                <div class="col-md-3">
-                                    End Time: <span> {{x.eventEtime | date:"hh:mm a"}}</span>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <md-button ng-hide="ctrl.evList.length<= cards" class="md-raised md-primary see-more" ng-click="seeMore()" >see more</md-button>
-        </div>
-
-    </div>
-    <!--Input event-->
-    <div class="row main-box m-0 pt-3 pb-3 mb-3" id="evx" ng-show="ctrl.IsVisible" style="width: 100%"  >
-        <div class="col-md-12">
-            <div flex-order="0" flex-order-gt-sm="2" layout="column">
-                <md-subheader class="top-title">Add Event</md-subheader>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <form novalidate>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="event-name">Event Name</label>
-                            <input class="form-control" id="event-name" ng-model="ev.name" type="text" ng-required="required">
-                            <div class="validate-error" ng-show="ctrl.validateError.eName">
-                                Please enter Event name!
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="event-description">Event Description</label>
-                            <input class="form-control" id="event-description" type="text"
-                                    ng-model="ev.descript">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Event start Date</label>
-                            <md-datepicker ng-model="ev.sdate" md-placeholder="Enter start date" id="event-start-date"
-                                           md-min-date="ctrl.minDate" md-max-date="ctrl.maxDate" class="form-control p-0"></md-datepicker>
-                            <div class="validate-error" ng-show="ctrl.validateError.eSDate">
-                                Please enter starting date!
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Event end Date</label>
-                            <md-datepicker ng-model="ev.edate" md-placeholder="Enter end date" id="event-ent-date"
-                                           md-min-date="ev.sdate" md-max-date="ctrl.maxDate" class="form-control p-0"></md-datepicker>
-                            <div class="validate-error" ng-show="ctrl.validateError.eEDate">
-                                Please enter end date!
-                            </div>
-                            <div class="validate-error" ng-if="ev.sdate>ev.edate">
-                                Please enter valid end date!
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="event-st-time">Event Starts at</label>
-                        <input class="form-control" id="event-st-time" type="time"
-                               ng-model="ev.stime">
-                        <div class="validate-error" ng-show="ctrl.validateError.eSTime">
-                            Please enter starting Time!
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="event-ed-time">Event Ends at</label>
-                        <input class="form-control" id="event-ed-time" type="time"
-                               ng-model="ev.etime" >
-                        <div class="validate-error" ng-show="ctrl.validateError.eETime">
-                            Please enter Ending Time!
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="offset-md-6 col-md-3 align-self-end">
-                        <div class="form-group text-center">
-                            <md-button class="md-raised md-primary" id="saveEv" style="width: 80%;" ng-click="ctrl.update(ev)">Save</md-button>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group text-center">
-                            <md-button class="md-raised md-warn" style="width: 80%;"  value="Hide Angular" ng-click="ctrl.ShowHide(false)">Cancel</md-button>
-
-                        </div>
-                    </div>
-                </div>
-
-
-            </form>
-        </div>
-
-    </div>
-
-    <!--Edit event-->
-    <div class="row main-box m-0 pt-3 pb-3 mb-3" id="edit-evx"  ng-show="ctrl.IsEditVisible"  style="width: 100%"  >
-        <div class="col-md-12">
-            <div flex-order="0" flex-order-gt-sm="2" layout="column">
-                <md-subheader class="top-title">Edit Event</md-subheader>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <form novalidate>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="event-edit-name">Event Name <i>Editing <span ng-repeat="f in ctrl.editevList">
-                                {{f.eventName}}
-                            </span></i></label>
-                            <input class="form-control"  id="event-edit-name" ng-model="editev.name" placeholder="Event Name" type="text" required>
-                            <div class="validate-error" ng-show="ctrl.validateError.eName" >
-                                Please enter Event name!
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="event-edit-description">Event Description</label>
-                            <input class="form-control" id="event-edit-description" type="text"
-                                   ng-model="editev.descript">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Event start Date</label>
-                            <md-datepicker ng-model="editev.sdate" md-placeholder="Enter start date" id="event-edit-start-date"
-                                           md-min-date="ctrl.minDate" md-max-date="ctrl.maxDate" class="form-control p-0"></md-datepicker>
-                            <div class="validate-error" ng-show="ctrl.validateError.eSDate">
-                                Please enter starting date!
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Event end Date</label>
-                            <md-datepicker ng-model="editev.edate" md-placeholder="Enter end date" id="event-edit-ent-date"
-                                           md-min-date="ev.sdate" md-max-date="ctrl.maxDate" class="form-control p-0"></md-datepicker>
-                            <div class="validate-error" ng-show="ctrl.validateError.eEDate">
-                                Please enter end date!
-                            </div>
-                            <div class="validate-error" ng-if="editev.sdate>editev.edate">
-                                Please enter valid end date!
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="event-st-time">Event Starts at</label>
-                        <input class="form-control" id="event-edit-st-time" type="time"
-                               ng-model="editev.stime">
-                        <div class="validate-error" ng-show="ctrl.validateError.eSTime">
-                            Please enter starting Time!
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="event-ed-time">Event Ends at</label>
-                        <input class="form-control" id="event-edit-ed-time" type="time"
-                               ng-model="editev.etime" >
-                        <div class="validate-error" ng-show="ctrl.validateError.eETime">
-                            Please enter Ending Time!
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="offset-md-3 col-md-3 align-self-end">
-                        <div class="form-group text-center">
-                            <md-button class="md-raised md-primary" style="width: 80%;" ng-click="ctrl.loadData(editev)">Load Data</md-button>
-                        </div>
-                    </div>
-                    <div class="col-md-3 ">
-                        <div class="form-group text-center">
-                            <md-button class="md-raised md-primary" style="width: 80%;" ng-click="ctrl.editData(editev)">Save</md-button>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group text-center">
-                            <md-button class="md-raised md-warn" style="width: 80%;"  value="Hide Angular" ng-click="ctrl.ShowHideEdit(false)">Cancel</md-button>
-
-                        </div>
-                    </div>
-                </div>
-
-
-            </form>
-        </div>
-
-    </div>
-
-
-    <!--View All Events-->
-    <div class="row main-box m-0 pt-3 pb-3 mb-3" style="width: 100%" id="view-events">
-        <div class="row top-title mr-1 ml-1"  style="width: 100%">
-            <div class="col">
-                <div flex-order="0" flex-order-gt-sm="2" layout="column">
-                    <md-subheader class="top-title">All Events</md-subheader>
-                </div>
-            </div>
-            <div class="col">
-                <md-button class="md-raised md-primary float-right" aria-label="Add Event" id="moveup" value="Hide Angular" ng-click="ctrl.ShowHide(true)"/>
-                Add new Event
-                </md-button>
-            </div>
-        </div>
-
-        <div class="col-md-12 text-center empty-msg" ng-if="ctrl.evList.length == 0">
-            <img src="https://assets-ouch.icons8.com/preview/606/90c1f2d7-b42f-4d7e-9d17-e183179862b7.png" class="empty-img" alt="">
-            <h3>It's Empty Here, <md-button class="md-raised md-primary"  ng-click="ctrl.ShowHide(true)"/>
-                Add new Event
-                </md-button> to continue!</h3>
-
-        </div>
-        <div class="col-md-12">
-            <div class="row">
-
-                    <div class="col-md-6 mb-2" ng-repeat="x in ctrl.evList| orderBy:['eventsDate','eventStime'] |limitTo:cards track by $index">
-                        <div class="card mb-2" style="width: 100%; border: 0">
-                        <div class="card-body dark-box">
-                            <div class="row">
-                                <div class="col-8">
-                                    <h4 class="card-title">Event : <span ng-bind="x.eventName" class="ng-binding"></span></h4>
-                                </div>
-                                <div class="col-4">
-                                   <div class="row float-right">
-
-
-                                       <md-button class="md-icon-button md-primary" aria-label="More"  ng-click="ctrl.edit(x.id)">
-                                           <md-icon md-svg-icon="images/edit.svg"></md-icon>
-                                       </md-button>
-                                       <md-button class="md-icon-button md-warn" aria-label="More"  ng-confirm-click="" confirmed-click='ctrl.delete(x.id)'>
-                                           <md-icon md-svg-icon="images/bin.svg"></md-icon>
-                                       </md-button>
-
-                                   </div>
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h6 class="card-subtitle mb-2 text-muted"><span ng-bind="x.eventDes" class="ng-binding"></span></h6>
-                                </div>
-                            </div>
-
-                            <div class="row" style="width: 100%;">
-                                <div class="col-md-3">
-                                    Start Date: <span> {{x.eventsDate|date:shortDate}}</span>
-                                </div>
-                                <div class="col-md-3">
-                                    End Date: <span> {{x.eventeDate|date:shortDate}}</span>
-                                </div>
-                                <div class="col-md-3">
-                                    Start Time: <span> {{x.eventStime| date:"hh:mm a"}}</span>
-                                </div>
-                                <div class="col-md-3">
-                                    End Time: <span> {{x.eventEtime | date:"hh:mm a"}}</span>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                    </div>
-
-            </div>
-
-            <md-button ng-hide="ctrl.evList.length<= cards" class="md-raised md-primary see-more" ng-click="seeMore()" >see more</md-button>
-        </div>
-
-    </div>
-
+<div ng-view>
 
 </div>
 
@@ -470,6 +62,26 @@
         </div>
         </div>
 </footer>
+
+<!-- auto show in mobile devices--->
+<div class="container-fluid bottom-menu">
+    <div class="row text-center">
+        <div class="col-4 pt-1 pb-1 title-column {{isActive('/')?'active-title-column':''}}" onclick="/">
+                <md-icon md-svg-icon="images/home.svg" class="bottom-menu-icon {{isActive('/')?'active-menu-icon':''}}"></md-icon>
+            <span class="bottom-menu-title {{isActive('/')?'active-title':''}}">Home</span>
+        </div>
+        <div class="col-4 pt-1 pb-1 title-column {{isActive('/completed')?'active-title-column':''}}">
+            <md-icon md-svg-icon="images/completedevents.svg" class="bottom-menu-icon {{isActive('/completed')?'active-menu-icon':''}}"></md-icon>
+            <span class="bottom-menu-title {{isActive('/completed')?'active-title':''}}">Completed</span>
+        </div>
+        <div class="col-4 pt-1 pb-1 title-column {{isActive('/profile')?'active-title-column':''}}">
+            <md-icon md-svg-icon="images/account.svg" class="bottom-menu-icon {{isActive('/profile')?'active-menu-icon':''}}"></md-icon>
+            <span class="bottom-menu-title {{isActive('/profile')?'active-title':''}}">Profile</span>
+        </div>
+
+    </div>
+</div>
+
 <script src="lib/angular/angular.js"></script>
 <script src="lib/angular-route/angular-route.js"></script>
 <!--Following codes is used to import the app and controller-->
