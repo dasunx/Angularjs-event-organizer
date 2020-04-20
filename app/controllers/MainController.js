@@ -6,7 +6,6 @@
 app.controller('AppCtrl',['$scope', '$location', '$anchorScroll','$filter',function($scope,$location,$anchorScroll,$filter) {
     let id;
     let called = 1;
-    let recent;
     if (localStorage.getItem('uid') !=null){
         id = localStorage.getItem('uid');
     }else {
@@ -21,7 +20,6 @@ app.controller('AppCtrl',['$scope', '$location', '$anchorScroll','$filter',funct
     if (localStorage.getItem('sav') != null){
         $scope.evList = JSON.parse(localStorage['sav']);
         for (let v in $scope.evList){
-            console.log($scope.evList[v]);
             if($scope.evList[v].complete == false){
                 let objIndex = $scope.evList.findIndex((obj=>obj.id == $scope.evList[v].id));
                 let r = checkComplete($scope.evList[v].id);
@@ -194,7 +192,7 @@ app.controller('AppCtrl',['$scope', '$location', '$anchorScroll','$filter',funct
         saved = $scope.evList;
         let d = JSON.stringify(saved);
         localStorage.setItem('sav',d);
-        alert( "Event Has been deleted successfully.");
+        alert( "Event has been deleted successfully.");
     };
 
     this.todayPostCount = function(){
@@ -226,7 +224,7 @@ app.controller('AppCtrl',['$scope', '$location', '$anchorScroll','$filter',funct
     $scope.interve = function (id) {
         let x = setInterval(function () {
             let r = checkComplete(id);
-            document.getElementById('timeremaining').innerHTML = r.day + " days " + r.hour+ " hour " + r.min+ " mins " + r.sec + " seconds";
+            document.getElementById('timeremaining').innerHTML = r.day + " days " + r.hour+ " hour " + r.min+ " mins " + r.sec + " s";
             if(r.day == 0 && r.hour== 0 && r.min==0 && r.sec == 2){
                 clearInterval(x);
                 $scope.c(id);

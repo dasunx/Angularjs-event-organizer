@@ -105,12 +105,12 @@
         </div>
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-6 mb-2" ng-repeat="x in evList |filter: {eventsDate:dated} |orderBy: ['eventsDate','eventStime'] |limitTo:cards track by $index">
+                <div class="col-md-6 mb-2" ng-repeat="x in evList |filter: {eventsDate:dated} |orderBy: ['eventsDate','eventStime'] track by $index">
                     <div class="card mb-2" style="width: 100%; border: 0">
                         <div class="card-body dark-box">
                             <div class="row">
                                 <div class="col-8">
-                                    <h4 class="card-title"><span ng-bind="x.eventName" class="ng-binding"></span>  <span class='timeremaining {{x.complete? "time-Completed":""}}'>{{x.complete? "Completed":"Not completed yet"}}</h4>
+                                    <h4 class="card-title"><span ng-bind="x.eventName" class="ng-binding"></span>  <span class='timeremaining {{x.complete? "time-Completed":""}}'>{{x.complete? "Completed":"upcoming"}}</h4>
                                 </div>
                                 <div class="col-4">
                                     <div class="row float-right">
@@ -144,14 +144,10 @@
                                     End Time: <span> {{x.eventEtime | date:"hh:mm a"}}</span>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
             </div>
-
-            <md-button ng-hide="evList.length<= cards" class="md-raised md-primary see-more" ng-click="seeMore()" >see more</md-button>
         </div>
 
     </div>
@@ -193,7 +189,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-4">
                         <label for="event-st-time">Event Starts at {{ev.stime}}</label>
                         <input class="form-control" id="event-st-time" type="time"
@@ -223,15 +218,11 @@
                     <div class="col-md-3">
                         <div class="form-group text-center">
                             <md-button class="md-raised md-warn" style="width: 80%;"  value="Hide Angular" ng-click="ctrl.ShowHide(false)">Cancel</md-button>
-
                         </div>
                     </div>
                 </div>
-
-
             </form>
         </div>
-
     </div>
 
     <!--Edit event-->
@@ -303,12 +294,9 @@
                     <div class="col-md-3">
                         <div class="form-group text-center">
                             <md-button class="md-raised md-warn" style="width: 80%;"  value="Hide Angular" ng-click="ctrl.ShowHideEdit(false)">Cancel</md-button>
-
                         </div>
                     </div>
                 </div>
-
-
             </form>
         </div>
 
@@ -341,7 +329,7 @@
                         <div class="card-body dark-box">
                             <div class="row">
                                 <div class="col-8">
-                                    <h4 class="card-title"><span ng-bind="x.eventName" class="ng-binding"></span>  <span class='timeremaining {{x.complete? "time-Completed":""}}'>{{x.complete? "Completed":"Not completed yet"}}</span></h4>
+                                    <h4 class="card-title"><span ng-bind="x.eventName" class="ng-binding"></span>  <span class='timeremaining {{x.complete? "time-Completed":""}}'>{{x.complete? "Completed":"upcoming"}}</span></h4>
                                 </div>
                                 <div class="col-4">
                                     <div class="row float-right">
