@@ -11,10 +11,7 @@ app.config(function($routeProvider) {
         .when("/completed", {
             templateUrl : "completed.html"
         })
-        .when("/green", {
-            templateUrl : "green.htm"
-        })
-        .when("/blue", {
-            templateUrl : "blue.htm"
+        .when("/about", {
+            templateUrl : "about.html"
         });
 });

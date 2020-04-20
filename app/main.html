@@ -6,11 +6,14 @@
                 <div class="col-md-12">
                     <div class="card" style="width: 100%; border: 0">
                         <div class="card-body dark-box">
-                            <h4 class="card-title">Titlek</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                            <h4 class="card-title">Event Organizer</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">Built with AngularJS</h6>
                             <p class="card-text">
-
-                                Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                Manage your events with easy and express way!
+                                separate User interface for Mobile devices.
+                                you can visit live demo here!
+                                <a href="https://events.dasunx.com" target="_blank">Go live</a>
+                            </p>
                             <md-button class="md-raised md-warn" ng-click="ctrl.goto('view-events')">View Events</md-button>
                             <md-button class="md-raised md-primary" ng-click="ctrl.ShowHide(true)">Add New event</md-button>
                         </div>
@@ -20,16 +23,16 @@
             <div class="row">
                 <div class="col-md-12">
                     <div flex-order="0" flex-order-gt-sm="2" layout="column">
-                        <md-subheader class="top-title">Next Event : <span class="date-alert ml-2">{{ctrl.startDate | date:shortDate}}</span>
+                        <md-subheader class="top-title">Next Event : <span id="timeremaining" class="timeremaining">No Upcoming event</span>
                         </md-subheader>
                     </div>
                     <div class="events">
-                        <div ng-repeat="x in ctrl.evList |filter:{complete:false}|orderBy: ['eventsDate','eventStime'] | limitTo:1">
+                        <div ng-repeat="x in evList |filter:{complete:false}|orderBy: ['eventsDate','eventStime'] | limitTo:1">
                             <div class="card mb-2" style="width: 100%; border: 0">
                                 <div class="card-body dark-box">
                                     <div class="row">
                                         <div class="col-8">
-                                            <h4 class="card-title">Event :<span ng-bind="x.eventName" class="ng-binding"></span></h4>
+                                            <h4 class="card-title">Event :<span ng-bind="x.eventName" class="ng-binding"></span>  <span ng-bind="intervCal(x.id)"></span> </h4>
                                         </div>
                                         <div class="col-4">
                                             <div class="row float-right">
@@ -51,16 +54,13 @@
                                     </div>
 
                                     <div class="row" style="width: 100%;">
-                                        <div class="col-md-3">
-                                            Start Date: <span> {{x.eventsDate|date:shortDate}}</span>
+                                        <div class="col-md-4">
+                                            Date: <span> {{x.eventsDate|date:shortDate}}</span>
                                         </div>
-                                        <div class="col-md-3">
-                                            End Date: <span> {{x.eventeDate|date:shortDate}}</span>
-                                        </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             Start Time: <span> {{x.eventStime| date:"hh:mm a"}}</span>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             End Time: <span> {{x.eventEtime | date:"hh:mm a"}}</span>
                                         </div>
                                     </div>
@@ -105,18 +105,18 @@
         </div>
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-6 mb-2" ng-repeat="x in ctrl.evList |filter: {eventsDate:dated} |orderBy: ['eventsDate','eventStime'] |limitTo:cards track by $index">
+                <div class="col-md-6 mb-2" ng-repeat="x in evList |filter: {eventsDate:dated} |orderBy: ['eventsDate','eventStime'] |limitTo:cards track by $index">
                     <div class="card mb-2" style="width: 100%; border: 0">
                         <div class="card-body dark-box">
                             <div class="row">
                                 <div class="col-8">
-                                    <h4 class="card-title">Event : <span ng-bind="x.eventName" class="ng-binding"></span></h4>
+                                    <h4 class="card-title"><span ng-bind="x.eventName" class="ng-binding"></span>  <span class='timeremaining {{x.complete? "time-Completed":""}}'>{{x.complete? "Completed":"Not completed yet"}}</h4>
                                 </div>
                                 <div class="col-4">
                                     <div class="row float-right">
 
 
-                                        <md-button class="md-icon-button md-primary" aria-label="More"  ng-click="ctrl.edit(x.id)">
+                                        <md-button class="md-icon-button md-primary" aria-label="More"  ng-hide="x.complete" ng-click="ctrl.edit(x.id)">
                                             <md-icon md-svg-icon="images/edit.svg"></md-icon>
                                         </md-button>
                                         <md-button class="md-icon-button md-warn" aria-label="More"  ng-confirm-click="" confirmed-click='ctrl.delete(x.id)'>
@@ -129,21 +129,18 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h6 class="card-subtitle mb-2 text-muted"><span ng-bind="x.eventDes" class="ng-binding"></span></h6>
+                                    <h6 class="card-subtitle mb-2 text-muted"></h6>
                                 </div>
                             </div>
 
                             <div class="row" style="width: 100%;">
-                                <div class="col-md-3">
-                                    Start Date: <span> {{x.eventsDate|date:shortDate}}</span>
+                                <div class="col-md-4">
+                                   Date: <span> {{x.eventsDate|date:shortDate}}</span>
                                 </div>
-                                <div class="col-md-3">
-                                    End Date: <span> {{x.eventeDate|date:shortDate}}</span>
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     Start Time: <span> {{x.eventStime| date:"hh:mm a"}}</span>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     End Time: <span> {{x.eventEtime | date:"hh:mm a"}}</span>
                                 </div>
                             </div>
@@ -154,7 +151,7 @@
                 </div>
             </div>
 
-            <md-button ng-hide="ctrl.evList.length<= cards" class="md-raised md-primary see-more" ng-click="seeMore()" >see more</md-button>
+            <md-button ng-hide="evList.length<= cards" class="md-raised md-primary see-more" ng-click="seeMore()" >see more</md-button>
         </div>
 
     </div>
@@ -186,43 +183,34 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Event start Date</label>
                             <md-datepicker ng-model="ev.sdate" md-placeholder="Enter start date" id="event-start-date"
-                                           md-min-date="ctrl.minDate" md-max-date="ctrl.maxDate" class="form-control p-0"></md-datepicker>
+                                           md-min-date="ctrl.today" class="form-control p-0" ng-change="changeEvTime(ev)"></md-datepicker>
                             <div class="validate-error" ng-show="ctrl.validateError.eSDate">
                                 Please enter starting date!
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Event end Date</label>
-                            <md-datepicker ng-model="ev.edate" md-placeholder="Enter end date" id="event-ent-date"
-                                           md-min-date="ev.sdate" md-max-date="ctrl.maxDate" class="form-control p-0"></md-datepicker>
-                            <div class="validate-error" ng-show="ctrl.validateError.eEDate">
-                                Please enter end date!
-                            </div>
-                            <div class="validate-error" ng-if="ev.sdate>ev.edate">
-                                Please enter valid end date!
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="event-st-time">Event Starts at</label>
+
+                    <div class="col-md-4">
+                        <label for="event-st-time">Event Starts at {{ev.stime}}</label>
                         <input class="form-control" id="event-st-time" type="time"
-                               ng-model="ev.stime">
+                               ng-model="ev.stime" min="ev.sdate">
                         <div class="validate-error" ng-show="ctrl.validateError.eSTime">
                             Please enter starting Time!
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="event-ed-time">Event Ends at</label>
                         <input class="form-control" id="event-ed-time" type="time"
-                               ng-model="ev.etime" >
+                               ng-model="ev.etime" min="ev.stime">
                         <div class="validate-error" ng-show="ctrl.validateError.eETime">
                             Please enter Ending Time!
+                        </div>
+                        <div class="validate-error" ng-show="ctrl.validateError.eTimeLarge">
+                            Ending Time must be greater than starting time!
                         </div>
                     </div>
                 </div>
@@ -258,9 +246,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="event-edit-name">Event Name <i>Editing <span ng-repeat="f in ctrl.editevList">
-                                {{f.eventName}}
-                            </span></i></label>
+                            <label for="event-edit-name">Event Name <i class="text-muted">Editing-
+                                {{ctrl.editevList[0].eventName}}</i></label>
                             <input class="form-control"  id="event-edit-name" ng-model="editev.name" placeholder="Event Name" type="text" required>
                             <div class="validate-error" ng-show="ctrl.validateError.eName" >
                                 Please enter Event name!
@@ -276,53 +263,39 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Event start Date</label>
                             <md-datepicker ng-model="editev.sdate" md-placeholder="Enter start date" id="event-edit-start-date"
-                                           md-min-date="ctrl.minDate" md-max-date="ctrl.maxDate" class="form-control p-0"></md-datepicker>
+                                           md-min-date="ctrl.today"  class="form-control p-0" ng-change="changeEvEditTime(editev)"></md-datepicker>
                             <div class="validate-error" ng-show="ctrl.validateError.eSDate">
                                 Please enter starting date!
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Event end Date</label>
-                            <md-datepicker ng-model="editev.edate" md-placeholder="Enter end date" id="event-edit-ent-date"
-                                           md-min-date="ev.sdate" md-max-date="ctrl.maxDate" class="form-control p-0"></md-datepicker>
-                            <div class="validate-error" ng-show="ctrl.validateError.eEDate">
-                                Please enter end date!
-                            </div>
-                            <div class="validate-error" ng-if="editev.sdate>editev.edate">
-                                Please enter valid end date!
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="event-st-time">Event Starts at</label>
+
+                    <div class="col-md-4">
+                        <label for="event-st-time">Event Starts at {{editev.stime}}</label>
                         <input class="form-control" id="event-edit-st-time" type="time"
-                               ng-model="editev.stime">
+                               ng-model="editev.stime" >
                         <div class="validate-error" ng-show="ctrl.validateError.eSTime">
                             Please enter starting Time!
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <label for="event-ed-time">Event Ends at</label>
+                    <div class="col-md-4">
+                        <label for="event-ed-time">Event Ends at {{editev.etime}}</label>
                         <input class="form-control" id="event-edit-ed-time" type="time"
                                ng-model="editev.etime" >
                         <div class="validate-error" ng-show="ctrl.validateError.eETime">
                             Please enter Ending Time!
                         </div>
+                        <div class="validate-error" ng-show="ctrl.validateError.eTimeLarge">
+                            Ending Time must be greater than starting time!
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="offset-md-3 col-md-3 align-self-end">
-                        <div class="form-group text-center">
-                            <md-button class="md-raised md-primary" style="width: 80%;" ng-click="ctrl.loadData(editev)">Load Data</md-button>
-                        </div>
-                    </div>
-                    <div class="col-md-3 ">
+                    <div class="col-md-3 offset-md-6">
                         <div class="form-group text-center">
                             <md-button class="md-raised md-primary" style="width: 80%;" ng-click="ctrl.editData(editev)">Save</md-button>
                         </div>
@@ -355,7 +328,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 text-center empty-msg" ng-if="ctrl.evList.length == 0">
+        <div class="col-md-12 text-center empty-msg" ng-if="evList.length == 0">
             <img src="https://assets-ouch.icons8.com/preview/606/90c1f2d7-b42f-4d7e-9d17-e183179862b7.png" class="empty-img" alt="">
             <h3>It's Empty Here, <md-button class="md-raised md-primary" ng-click="ctrl.ShowHide(true)">Add New event</md-button>to continue!</h3>
 
@@ -363,16 +336,16 @@
         <div class="col-md-12">
             <div class="row">
 
-                <div class="col-md-6 mb-2" ng-repeat="x in ctrl.evList| orderBy:['eventsDate','eventStime'] |limitTo:cards track by $index">
+                <div class="col-md-6 mb-2" ng-repeat="x in evList| orderBy:['complete','eventsDate','eventStime'] |limitTo:cards track by $index">
                     <div class="card mb-2" style="width: 100%; border: 0">
                         <div class="card-body dark-box">
                             <div class="row">
                                 <div class="col-8">
-                                    <h4 class="card-title">Event :<span ng-bind="x.eventName" class="ng-binding"></span></h4>
+                                    <h4 class="card-title"><span ng-bind="x.eventName" class="ng-binding"></span>  <span class='timeremaining {{x.complete? "time-Completed":""}}'>{{x.complete? "Completed":"Not completed yet"}}</span></h4>
                                 </div>
                                 <div class="col-4">
                                     <div class="row float-right">
-                                        <md-button class="md-icon-button md-primary" aria-label="More"  ng-click="ctrl.edit(x.id)">
+                                        <md-button class="md-icon-button md-primary" aria-label="More"  ng-hide="x.complete" ng-click="ctrl.edit(x.id)">
                                             <md-icon md-svg-icon="images/edit.svg"></md-icon>
                                         </md-button>
                                         <md-button class="md-icon-button md-warn" aria-label="More"  ng-confirm-click="" confirmed-click='ctrl.delete(x.id)'>
@@ -390,16 +363,13 @@
                             </div>
 
                             <div class="row" style="width: 100%;">
-                                <div class="col-md-3">
-                                    Start Date: <span> {{x.eventsDate|date:shortDate}}</span>
+                                <div class="col-md-4">
+                                    Date: <span> {{x.eventsDate|date:shortDate}}</span>
                                 </div>
-                                <div class="col-md-3">
-                                    End Date: <span> {{x.eventeDate|date:shortDate}}</span>
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     Start Time: <span> {{x.eventStime| date:"hh:mm a"}}</span>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     End Time: <span> {{x.eventEtime | date:"hh:mm a"}}</span>
                                 </div>
                             </div>
@@ -411,7 +381,7 @@
 
             </div>
 
-            <md-button ng-hide="ctrl.evList.length<= cards" class="md-raised md-primary see-more" ng-click="seeMore()" >see more</md-button>
+            <md-button ng-hide="evList.length<= cards" class="md-raised md-primary see-more" ng-click="seeMore()" >see more</md-button>
         </div>
 
     </div>
