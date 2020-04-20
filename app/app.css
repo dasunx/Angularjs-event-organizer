@@ -120,3 +120,20 @@ body{
 .last-box{
   margin-bottom:75px !important;
 }
+
+.about-img{
+  border-radius: 250px;
+  width: 30%;
+  text-align: center;
+}
+
+.timeremaining{
+  background-color: #f48024;
+  padding: 5px 20px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+.time-Completed{
+  background-color: #3f51b5 !important;
+}
